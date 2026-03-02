@@ -113,13 +113,15 @@ function hud(){
 
 // ── input ─────────────────────────────────────────────────────────────────────
 document.addEventListener('keydown',e=>{
+  const isMove='ArrowLeft ArrowRight ArrowUp ArrowDown a d w s'.split(' ').includes(e.key);
+  if(isMove&&(mode==='title'||mode==='over')){initGame();mode='ready';rdTick=60;}
   if(e.key==='ArrowLeft' ||e.key==='a'){want={dx:-1,dy:0};e.preventDefault();}
   if(e.key==='ArrowRight'||e.key==='d'){want={dx: 1,dy:0};e.preventDefault();}
   if(e.key==='ArrowUp'   ||e.key==='w'){want={dx:0,dy:-1};e.preventDefault();}
   if(e.key==='ArrowDown' ||e.key==='s'){want={dx:0,dy: 1};e.preventDefault();}
   if(e.key===' '||e.key==='Enter'){
     e.preventDefault();
-    if(mode==='title'||mode==='over'){initGame();mode='ready';rdTick=120;}
+    if(mode==='title'||mode==='over'){initGame();mode='ready';rdTick=60;}
     else if(mode==='dead'){mode='ready';rdTick=120;spawnAll();}
     else if(mode==='win'){
       level++;FMAX=Math.max(100,FMAX-20);
@@ -134,7 +136,7 @@ const D4=[{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
 
 function movePac(){
   const p=pac;
-  if(near(p.x,p.y)){
+  if(near(p.x,p.y,p.sp*0.75)){
     const c=cx2col(p.x),r=cy2row(p.y);
     p.x=col2x(c);p.y=row2y(r);
     if((want.dx||want.dy)&&pass(tileAt(r+want.dy,c+want.dx))){
@@ -158,7 +160,7 @@ function movePac(){
 function moveGhost(g){
   if(g.inH){if(--g.delay<=0){g.x=col2x(10);g.y=row2y(9);g.dx=0;g.dy=-1;g.inH=false;}return;}
   const spd=g.eaten?g.sp*2:g.fr?g.sp*0.5:g.sp;
-  if(near(g.x,g.y)){
+  if(near(g.x,g.y,spd*0.75)){
     const c=cx2col(g.x),r=cy2row(g.y);
     g.x=col2x(c);g.y=row2y(r);
     if(g.eaten&&c===10&&r===9){g.eaten=false;g.fr=false;g.inH=true;g.delay=60;g.dx=0;g.dy=0;return;}
