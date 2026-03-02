@@ -113,13 +113,15 @@ function hud(){
 
 // ── input ─────────────────────────────────────────────────────────────────────
 document.addEventListener('keydown',e=>{
+  const isMove='ArrowLeft ArrowRight ArrowUp ArrowDown a d w s'.split(' ').includes(e.key);
+  if(isMove&&(mode==='title'||mode==='over')){initGame();mode='ready';rdTick=60;}
   if(e.key==='ArrowLeft' ||e.key==='a'){want={dx:-1,dy:0};e.preventDefault();}
   if(e.key==='ArrowRight'||e.key==='d'){want={dx: 1,dy:0};e.preventDefault();}
   if(e.key==='ArrowUp'   ||e.key==='w'){want={dx:0,dy:-1};e.preventDefault();}
   if(e.key==='ArrowDown' ||e.key==='s'){want={dx:0,dy: 1};e.preventDefault();}
   if(e.key===' '||e.key==='Enter'){
     e.preventDefault();
-    if(mode==='title'||mode==='over'){initGame();mode='ready';rdTick=120;}
+    if(mode==='title'||mode==='over'){initGame();mode='ready';rdTick=60;}
     else if(mode==='dead'){mode='ready';rdTick=120;spawnAll();}
     else if(mode==='win'){
       level++;FMAX=Math.max(100,FMAX-20);
