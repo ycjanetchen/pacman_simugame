@@ -86,7 +86,7 @@ function initGame(){
 }
 function spawnAll(){
   want={dx:0,dy:0};frightLeft=0;
-  pac={x:col2x(10),y:row2y(16),dx:0,dy:0,sp:2.0,ang:0,m:0.25,md:1};
+  pac={x:col2x(10),y:row2y(16),dx:-1,dy:0,sp:2.0,ang:Math.PI,m:0.25,md:1};
   gs=[
     mkG(10,9, '#f00','blinky',0),
     mkG(9, 10,'#f9f','pinky', 80),
